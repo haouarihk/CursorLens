@@ -53,7 +53,11 @@ async function getAIModelClient(provider: string, model: string) {
       return groqClient(model);
     }
     case "ollama":
-      return ollama("llama3.1");
+      const olm = ollama(model || "llama3.1");
+      if (process.env.OLLAMA_BASE_URL) {
+        olm.config.baseURL = process.env.OLLAMA_BASE_URL;
+      }
+      return olm;
     case "google-vertex":
       throw new Error("Google Vertex AI is not currently supported");
     default:
