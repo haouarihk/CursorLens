@@ -1,7 +1,21 @@
 import prisma from "@/lib/prisma";
+import { ModelCost } from "@prisma/client";
 
-export async function getModelCost(provider: string, model: string) {
+export async function getModelCost(provider: string, model: string): Promise<ModelCost> {
   const currentDate = new Date();
+
+  if (provider.toLowerCase() === "ollama") {
+    return {
+      id: "ollama",
+      provider,
+      model,
+      inputTokenCost: 0,
+      outputTokenCost: 0,
+      validFrom: null,
+      validTo: null,
+    };
+  }
+
   const modelCost = await prisma.modelCost.findFirst({
     where: {
       provider,

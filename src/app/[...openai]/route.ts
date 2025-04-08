@@ -185,29 +185,29 @@ export async function POST(
           const totalTokens = usage?.totalTokens ?? 0;
 
 
-          try{
-          const modelCost = await getModelCost(provider, model);
-          const inputCost = (inputTokens / 1000000) * modelCost.inputTokenCost;
-          const outputCost =
-            (outputTokens / 1000000) * modelCost.outputTokenCost;
-          const totalCost = inputCost + outputCost;
+          try {
+            const modelCost = await getModelCost(provider, model);
+            const inputCost = (inputTokens / 1000000) * modelCost.inputTokenCost;
+            const outputCost =
+              (outputTokens / 1000000) * modelCost.outputTokenCost;
+            const totalCost = inputCost + outputCost;
 
-          logEntry.response = {
-            text,
-            toolCalls,
-            toolResults,
-            usage,
-            finishReason,
-            ...otherProps,
-          };
-          logEntry.metadata = {
-            ...logEntry.metadata,
-            inputTokens,
-            outputTokens,
-            totalTokens,
-            inputCost,
-            outputCost,
-            totalCost,
+            logEntry.response = {
+              text,
+              toolCalls,
+              toolResults,
+              usage,
+              finishReason,
+              ...otherProps,
+            };
+            logEntry.metadata = {
+              ...logEntry.metadata,
+              inputTokens,
+              outputTokens,
+              totalTokens,
+              inputCost,
+              outputCost,
+              totalCost,
             };
           } catch (err) {
             console.error("Error while inserting log:", err);
@@ -260,13 +260,13 @@ export async function POST(
     const totalTokens = result.usage?.totalTokens ?? 0;
 
     logEntry.response = result;
-    
-    try{
+
+    try {
       const modelCost = await getModelCost(provider, model);
       const inputCost = inputTokens * modelCost.inputTokenCost;
       const outputCost = outputTokens * modelCost.outputTokenCost;
       const totalCost = inputCost + outputCost;
-      
+
       logEntry.metadata = {
         ...logEntry.metadata,
         inputTokens,
