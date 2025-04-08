@@ -29,6 +29,45 @@ We are live on ProductHunt today, please upvote us if you find this useful! 🙏
 
 For detailed installation instructions, please refer to our [Installation Guide](https://www.cursorlens.com/docs/getting-started/installation).
 
+
+### Using Docker
+
+CursorLens provides different images for various release types:
+
+- `nightly`: Latest development build (updated on every push to main)
+- `alpha`: Pre-release versions (tagged as vX.Y.Z-alpha)
+- `stable`: Production-ready releases (tagged as vX.Y.Z)
+
+```yaml
+services:
+  cursorlens:
+    image: ghcr.io/haouarihk/cursorlens:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+```
+
 ### Prerequisites
 
 - Node.js (v14 or later)
@@ -142,6 +181,7 @@ Cursor Lens is licensed under the GNU Affero General Public License v3.0 (AGPL-3
 If you encounter any issues or have questions, please file an issue on the GitHub repository or contact the maintainers directly.
 
 For more detailed information, please visit our [documentation](https://www.cursorlens.com/docs/project/introduction).
+
 
 ---
 
