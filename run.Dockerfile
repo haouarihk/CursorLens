@@ -18,10 +18,13 @@ USER nextjs
 COPY --chown=nextjs:nodejs ./public ./public
 COPY --chown=nextjs:nodejs ./.next/standalone ./
 COPY --chown=nextjs:nodejs ./.next/static ./.next/static
+COPY --chown=nextjs:nodejs ./scripts ./scripts
+RUN chmod -R 777 .next
 
 # Copy the Prisma schema.
 COPY --chown=nextjs:nodejs ./prisma ./prisma
 
-RUN chmod -R 777 .next
+RUN npm install -g prisma
 
-CMD ["node", "server.js"]
+
+CMD ["sh", "scripts/_docker_run.sh"]
