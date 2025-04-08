@@ -19,6 +19,9 @@ COPY --chown=nextjs:nodejs ./public ./public
 COPY --chown=nextjs:nodejs ./.next/standalone ./
 COPY --chown=nextjs:nodejs ./.next/static ./.next/static
 
+# Copy the Prisma schema.
+COPY --chown=nextjs:nodejs ./prisma ./prisma
+
 RUN chmod -R 777 .next
 
 CMD ["node", "server.js"]
