@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { getModelCost } from "../src/lib/cost-calculator";
 
-const prisma = new PrismaClient();
 
 async function updateLogCosts() {
   const logs = await prisma.log.findMany();
