@@ -29,6 +29,9 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Use .env.build instead of .env
+        run: cp .env.build .env
         
       - name: Install dependencies
         run: pnpm install
