@@ -7,9 +7,7 @@ export async function getModelCost(provider: string, model: string) {
       provider,
       model,
       AND: [
-        // @ts-ignore
         { OR: [{ validFrom: null }, { validFrom: { lte: currentDate } }] },
-        // @ts-ignore
         { OR: [{ validTo: null }, { validTo: { gte: currentDate } }] },
       ],
     },

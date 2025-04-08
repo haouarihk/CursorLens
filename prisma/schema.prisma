@@ -46,7 +46,7 @@ model ModelCost {
   model           String
   inputTokenCost  Float
   outputTokenCost Float
-  validFrom       DateTime
+  validFrom       DateTime?
   validTo         DateTime?
 
   @@unique([provider, model, validFrom])
