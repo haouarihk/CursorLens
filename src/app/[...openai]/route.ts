@@ -184,6 +184,8 @@ export async function POST(
           const outputTokens = usage?.completionTokens ?? 0;
           const totalTokens = usage?.totalTokens ?? 0;
 
+
+          try{
           const modelCost = await getModelCost(provider, model);
           const inputCost = (inputTokens / 1000000) * modelCost.inputTokenCost;
           const outputCost =
@@ -206,7 +208,10 @@ export async function POST(
             inputCost,
             outputCost,
             totalCost,
-          };
+            };
+          } catch (err) {
+            console.error("Error while inserting log:", err);
+          }
           await insertLog(logEntry);
         },
       });
@@ -254,21 +259,26 @@ export async function POST(
     const outputTokens = result.usage?.completionTokens ?? 0;
     const totalTokens = result.usage?.totalTokens ?? 0;
 
-    const modelCost = await getModelCost(provider, model);
-    const inputCost = inputTokens * modelCost.inputTokenCost;
-    const outputCost = outputTokens * modelCost.outputTokenCost;
-    const totalCost = inputCost + outputCost;
-
     logEntry.response = result;
-    logEntry.metadata = {
-      ...logEntry.metadata,
-      inputTokens,
-      outputTokens,
-      totalTokens,
-      inputCost,
-      outputCost,
-      totalCost,
-    };
+    
+    try{
+      const modelCost = await getModelCost(provider, model);
+      const inputCost = inputTokens * modelCost.inputTokenCost;
+      const outputCost = outputTokens * modelCost.outputTokenCost;
+      const totalCost = inputCost + outputCost;
+      
+      logEntry.metadata = {
+        ...logEntry.metadata,
+        inputTokens,
+        outputTokens,
+        totalTokens,
+        inputCost,
+        outputCost,
+        totalCost,
+      };
+    } catch (err) {
+      console.error("Error while calculating cost:", err);
+    }
     await insertLog(logEntry);
 
     return NextResponse.json(result);
