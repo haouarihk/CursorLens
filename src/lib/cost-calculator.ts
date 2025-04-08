@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export async function getModelCost(provider: string, model: string) {
   const currentDate = new Date();
@@ -8,8 +6,10 @@ export async function getModelCost(provider: string, model: string) {
     where: {
       provider,
       model,
-      OR: [{ validFrom: null }, { validFrom: { lte: currentDate } }],
-      OR: [{ validTo: null }, { validTo: { gte: currentDate } }],
+      AND: [
+        { OR: [{ validFrom: undefined }, { validFrom: { lte: currentDate } }] },
+        { OR: [{ validTo: undefined }, { validTo: { gte: currentDate } }] },
+      ],
     },
     orderBy: { validFrom: "desc" },
   });
