@@ -45,8 +45,11 @@ fi
 # Convert array to comma-separated string
 TAGS_STRING=$(IFS=,; echo "${TAGS[*]}")
 
+# Convert repository name to lowercase
+REPO_NAME=$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')
+
 # Export the tags as environment variable
-echo "DOCKER_TAGS=$TAGS_STRING" >> $GITHUB_ENV
+echo "DOCKER_TAGS=ghcr.io/$REPO_NAME:$TAGS_STRING" >> $GITHUB_ENV
 
 # Print for debugging
 echo "Extracted tags: $TAGS_STRING" 

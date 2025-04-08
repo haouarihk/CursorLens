@@ -55,5 +55,5 @@ jobs:
           context: .
           file: run.Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ env.DOCKER_TAGS }}
+          tags: ${{ env.DOCKER_TAGS }}
           platforms: linux/amd64,linux/arm64
