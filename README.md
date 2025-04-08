@@ -25,18 +25,18 @@ We are live on ProductHunt today, please upvote us if you find this useful! 🙏
 - **AI Library**: Vercel AI SDK
 - **Styling**: Tailwind CSS with shadcn/ui components
 
-## Getting Started
-
-For detailed installation instructions, please refer to our [Installation Guide](https://www.cursorlens.com/docs/getting-started/installation).
 
 
-### Using Docker
+## Getting Started (Using Docker Compose)
 
-CursorLens provides different images for various release types:
-
-- `nightly`: Latest development build (updated on every push to main)
-- `alpha`: Pre-release versions (tagged as vX.Y.Z-alpha)
-- `stable`: Production-ready releases (tagged as vX.Y.Z)
+1. Create a new file named `docker-compose.yaml` in your project directory
+2. Copy and paste the YAML configuration below into the file
+3. Open a terminal in the project directory
+4. Run the command:
+   ```bash
+   docker compose up
+   ```
+(Optional: Add `-d` flag to run in detached mode)
 
 ```yaml
 services:
@@ -46,6 +46,7 @@ services:
       - "3000:3000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    # restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
@@ -58,6 +59,7 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    # restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -67,6 +69,16 @@ services:
 volumes:
   postgres_data:
 ```
+CursorLens provides different images for various release types:
+
+- `nightly`: Latest development build
+- `alpha`: Pre-release versions
+- `stable`: Production-ready releases
+
+
+## Getting Started (From Source)
+
+For detailed installation instructions, please refer to our [Installation Guide](https://www.cursorlens.com/docs/getting-started/installation).
 
 ### Prerequisites
 

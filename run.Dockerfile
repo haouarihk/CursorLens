@@ -5,7 +5,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 RUN apk update
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

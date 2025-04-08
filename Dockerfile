@@ -2,8 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat
 RUN apk update
+RUN apk add --no-cache libc6-compat openssl
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -11,11 +11,13 @@ RUN npm install -g pnpm
 # Copy package.json and pnpm-lock.yaml
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
-RUN pnpm install
+RUN pnpm fetch
 
 # Copy the rest of the application
 COPY . .
+
+# Install dependencies
+RUN pnpm install
 
 # Generate Prisma Client
 RUN pnpm prisma generate
