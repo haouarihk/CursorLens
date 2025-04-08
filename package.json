@@ -12,7 +12,8 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "seed": "tsx prisma/seed.ts",
-    "update-log-costs": "tsx scripts/update-log-costs.ts"
+    "update-log-costs": "tsx scripts/update-log-costs.ts",
+    "postinstall": "npx prisma generate"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
