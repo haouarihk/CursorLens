@@ -28,28 +28,28 @@ TAG_NAME=$1
 # Extract version
 VERSION=$(extract_version "$TAG_NAME")
 
+# Convert repository name to lowercase
+REPO_NAME=$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')
+
 # Initialize tags array
 TAGS=()
 
 # Add appropriate tags based on tag type
 if is_alpha "$TAG_NAME"; then
     # For alpha releases
-    TAGS+=("$VERSION-alpha")
-    TAGS+=("alpha")
+    TAGS+=("ghcr.io/$REPO_NAME:$VERSION-alpha")
+    TAGS+=("ghcr.io/$REPO_NAME:alpha")
 else
     # For regular releases
-    TAGS+=("$VERSION")
-    TAGS+=("latest")
+    TAGS+=("ghcr.io/$REPO_NAME:$VERSION")
+    TAGS+=("ghcr.io/$REPO_NAME:latest")
 fi
 
 # Convert array to comma-separated string
 TAGS_STRING=$(IFS=,; echo "${TAGS[*]}")
 
-# Convert repository name to lowercase
-REPO_NAME=$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')
-
 # Export the tags as environment variable
-echo "DOCKER_TAGS=ghcr.io/$REPO_NAME:$TAGS_STRING" >> $GITHUB_ENV
+# echo "DOCKER_TAGS=$TAGS_STRING" >> $GITHUB_ENV
 
 # Print for debugging
-echo "Extracted tags: $TAGS_STRING" 
+echo "Extracted tags: $TAGS_STRING"
