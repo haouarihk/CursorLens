@@ -49,7 +49,7 @@ fi
 TAGS_STRING=$(IFS=,; echo "${TAGS[*]}")
 
 # Export the tags as environment variable
-# echo "DOCKER_TAGS=$TAGS_STRING" >> $GITHUB_ENV
+echo "DOCKER_TAGS=$TAGS_STRING" >> $GITHUB_ENV
 
 # Print for debugging
 echo "Extracted tags: $TAGS_STRING"
