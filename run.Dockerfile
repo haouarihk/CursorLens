@@ -13,6 +13,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+RUN npm install -g prisma
+
 USER nextjs
 
 COPY --chown=nextjs:nodejs ./public ./public
@@ -24,7 +26,7 @@ RUN chmod -R 777 .next
 # Copy the Prisma schema.
 COPY --chown=nextjs:nodejs ./prisma ./prisma
 
-RUN npm install -g prisma
+
 
 
 CMD ["sh", "scripts/_docker_run.sh"]
